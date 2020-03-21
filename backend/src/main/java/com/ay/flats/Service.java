@@ -1,13 +1,13 @@
-package com.example.flats;
+package com.ay.flats;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FlatsApplication {
+public class Service {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FlatsApplication.class, args);
+		SpringApplication.run(Service.class, args);
 	}
 
 }
