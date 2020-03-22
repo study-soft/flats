@@ -1,7 +1,6 @@
 package com.ay.flats.service;
 
 import com.ay.flats.domain.Flat;
-import com.ay.flats.domain.PlotItem;
 import com.ay.flats.repository.CommonRepository;
 import com.ay.flats.util.UkLocaleDateFormatter;
 import org.jsoup.Jsoup;
@@ -10,12 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 public class SimpleFlatService implements FlatService {
@@ -36,30 +32,9 @@ public class SimpleFlatService implements FlatService {
             "&currency=USD";
 
     private final CommonRepository<Flat> flatRepository;
-    private final CommonRepository<PlotItem> plotItemRepository;
 
-    public SimpleFlatService(final CommonRepository<Flat> flatRepository,
-                             final CommonRepository<PlotItem> plotItemRepository) {
+    public SimpleFlatService(final CommonRepository<Flat> flatRepository) {
         this.flatRepository = flatRepository;
-        this.plotItemRepository = plotItemRepository;
-    }
-
-    public final List<PlotItem> getPlotData() {
-        return plotItemRepository.findAll();
-    }
-
-    public final PlotItem saveAverage(final int pages) {
-        double avgPrice = IntStream.range(1, pages)
-                .mapToObj(this::getFlats)
-                .flatMap(Collection::stream)
-                .mapToInt(Flat::getPriceUsd)
-                .average()
-                .orElse(0.0);
-
-        return plotItemRepository.save(new PlotItem()
-                .id(UUID.randomUUID().toString())
-                .date(LocalDateTime.now())
-                .price(avgPrice));
     }
 
     public final List<Flat> getFlats(final int page) {

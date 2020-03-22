@@ -8,8 +8,4 @@ import java.util.List;
 public interface FlatService {
 
     List<Flat> getFlats(int page);
-
-    PlotItem saveAverage(final int pages);
-
-    List<PlotItem> getPlotData();
 }
