@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class FlatService {
 
+    // https://www.olx.ua/uk/nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/?search%5Bfilter_float_floor%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Ato%5D=3&search%5Bdistrict_id%5D=17&currency=USD
+
     private static final int MIN_FLOOR = 2;
     private static final int MIN_ROOMS = 2;
     private static final int MAX_ROOMS = 3;
@@ -53,7 +55,7 @@ public class FlatService {
         Integer priceUsd = Integer.valueOf(firstTableRow
                 .select("td").get(2)
                 .select("td > div > p > strong").text()
-                .replaceAll("[ $]", ""));
+                .replaceAll("\\D", ""));
 
         // TODO: deal with encoding
 //        LocalDateTime adDate = new UaLocaleDateFormatter(tbody
