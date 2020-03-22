@@ -5,8 +5,6 @@ import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +25,7 @@ public class FlatService {
             "&search%5Bfilter_float_number_of_rooms%3Afrom%5D=" + MIN_ROOMS +
             "&search%5Bfilter_float_number_of_rooms%3Ato%5D=" + MAX_ROOMS +
             "&search%5Bdistrict_id%5D=" + DISTRICT_ID +
-            "&currency=USD&page=5";
+            "&currency=USD";
 
     public List<Flat> getFlats() throws IOException {
         return Jsoup.connect(GET_ALL_URL)
@@ -57,14 +55,13 @@ public class FlatService {
                 .select("td > div > p > strong").text()
                 .replaceAll("\\D", ""));
 
-        // TODO: deal with encoding
-//        LocalDateTime adDate = new UaLocaleDateFormatter(tbody
-//                .select("tr").get(1)
-//                .select("td > div > p > small").get(1)
-//                .select("span").text()
-//                .trim())
-//                .format();
+        LocalDateTime adDate = new UkLocaleDateFormatter(tbody
+                .select("tr").get(1)
+                .select("td > div > p > small").get(1)
+                .select("span").text()
+                .trim())
+                .format();
 
-        return new Flat(name, link, priceUsd, LocalDateTime.now());
+        return new Flat(name, link, priceUsd, adDate);
     }
 }
