@@ -1,12 +1,14 @@
 package com.ay.flats.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Document(collection = "flats")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public final class Flat {
     @Id
     @JsonIgnore
