@@ -1,4 +1,4 @@
-package com.ay.flats;
+package com.ay.flats.util;
 
 import java.time.*;
 import java.time.format.TextStyle;
@@ -28,7 +28,7 @@ public final class UkLocaleDateFormatter {
 
     private final String source;
 
-    UkLocaleDateFormatter(final String source) {
+    public UkLocaleDateFormatter(final String source) {
         this.source = source;
     }
 
@@ -38,7 +38,7 @@ public final class UkLocaleDateFormatter {
      *
      * @return <code>LocalDateTime</code> instance
      */
-    LocalDateTime format() {
+    public LocalDateTime format() {
         if (source.length() == 14) { //Сьогодні xx:xx
             return fromDay(LocalDate.now());
         } else if (source.length() == 11) { //Вчора xx:xx
