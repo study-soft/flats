@@ -51,20 +51,6 @@ public class SimpleFlatService implements FlatService {
         return plotItemRepository.findAll();
     }
 
-    public final List<Flat> getFlats(final int page) {
-        try {
-            return Jsoup.connect(GET_ALL_URL)
-                    .get()
-                    .select("td[class=offer] > div[class=offer-wrapper] > table")
-                    .stream()
-                    .map(this::extractFlatData)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
-    }
-
     public final PlotItem saveAverage(final int pages) {
         double avgPrice = IntStream.range(1, pages)
                 .mapToObj(this::getFlats)
@@ -76,6 +62,20 @@ public class SimpleFlatService implements FlatService {
         return plotItemRepository.save(new PlotItem()
                 .date(LocalDateTime.now())
                 .price(avgPrice));
+    }
+
+    public final List<Flat> getFlats(final int page) {
+        try {
+            return Jsoup.connect(GET_ALL_URL + "&page=" + page)
+                    .get()
+                    .select("td[class=offer] > div[class=offer-wrapper] > table")
+                    .stream()
+                    .map(this::extractFlatData)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     private Flat extractFlatData(Element table) {
