@@ -109,7 +109,7 @@ public class SimpleOlxService implements OlxService {
                 .floor(extractTableData(tbody, 1, 1))
                 .floorsTotal(extractTableData(tbody, 2, 0))
                 .totalSquare(extractTableData(tbody, 2, 1))
-                .kitchenSquare(extractTableData(tbody, 3, 1))
+                .kitchenSquare(extractTableData(tbody, 3, 0))
                 .roomCount(extractTableData(tbody, 3, 1));
     }
 
