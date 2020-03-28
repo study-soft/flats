@@ -109,20 +109,17 @@ public class SimpleOlxService implements OlxService {
 
     private Flat extractDetailedFlatData(final Element tbody) {
         return new Flat()
-                .floor(extractTableData(tbody, 1, 1))
-                .floorsTotal(extractTableData(tbody, 2, 0))
-                .totalSquare(extractTableData(tbody, 2, 1))
-                .kitchenSquare(extractTableData(tbody, 3, 0))
-                .roomCount(extractTableData(tbody, 3, 1));
+                .floor(extractTableData(tbody, "Поверх"))
+                .floorsTotal(extractTableData(tbody, "Поверховість"))
+                .totalSquare(extractTableData(tbody, "Загальна площа"))
+                .kitchenSquare(extractTableData(tbody, "Площа кухні"))
+                .roomCount(extractTableData(tbody, "Кількість кімнат"));
     }
 
-    private int extractTableData(final Element tbody, final int trIndex, final int tdIndex) {
-        return Integer.parseInt(tbody
-                .children()
-                .get(trIndex)
-                .children()
-                .get(tdIndex)
-                .select("table > tbody > tr > td > strong")
+    private int extractTableData(final Element tbody, final String section) {
+        return Integer.parseInt(tbody.selectFirst("th:contains(" + section + ")")
+                .nextElementSibling()
+                .selectFirst("strong")
                 .text()
                 .replaceAll("\\D", ""));
     }

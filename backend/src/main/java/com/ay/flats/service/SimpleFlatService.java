@@ -5,6 +5,7 @@ import com.ay.flats.repository.FlatRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SimpleFlatService implements FlatService {
@@ -18,8 +19,19 @@ public class SimpleFlatService implements FlatService {
     }
 
     @Override
-    public void fetchAndSaveFlats() {
-        List<Flat> flats = olxService.getFlats(1);
-        repository.saveAll(flats);
+    public List<Flat> fetchAndSaveFlats() {
+        return olxService.getFlats(1).stream()
+                .map(flat -> mergeFlat(flat, olxService.getFlat(flat.getUrl())))
+                .map(repository::saveOrUpdate)
+                .collect(Collectors.toList());
+    }
+
+    private Flat mergeFlat(final Flat baseFlat, final Flat detailedFlat) {
+        return baseFlat
+                .floor(detailedFlat.getFloor())
+                .floorsTotal(detailedFlat.getFloorsTotal())
+                .totalSquare(detailedFlat.getTotalSquare())
+                .kitchenSquare(detailedFlat.getKitchenSquare())
+                .roomCount(detailedFlat.getRoomCount());
     }
 }

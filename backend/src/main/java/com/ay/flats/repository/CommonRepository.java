@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CommonRepository<T> {
 
-    T save(T entity);
+    T saveOrUpdate(T entity);
 
     List<T> findAll();
 }

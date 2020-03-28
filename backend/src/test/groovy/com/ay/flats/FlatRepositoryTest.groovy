@@ -31,7 +31,7 @@ class FlatRepositoryTest extends Specification {
             ))
         })
         and:
-        repository.save(new Flat(
+        repository.saveOrUpdate(new Flat(
                 id: givenFlats[0].id,
                 olxId: 1,
                 name: 'flat_1',

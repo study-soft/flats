@@ -35,7 +35,7 @@ public class SimplePlotService implements PlotService {
                 .map(Double.class::cast)
                 .get();
 
-        return plotItemRepository.save(new PlotItem()
+        return plotItemRepository.saveOrUpdate(new PlotItem()
                 .id(UUID.randomUUID().toString())
                 .date(LocalDateTime.now())
                 .price(avgPrice));

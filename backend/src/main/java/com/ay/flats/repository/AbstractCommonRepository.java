@@ -15,7 +15,7 @@ public abstract class AbstractCommonRepository<T> implements CommonRepository<T>
     protected abstract Class<T> entityClass();
 
     @Override
-    public T save(final T entity) {
+    public T saveOrUpdate(final T entity) {
         return operations.save(entity);
     }
 
