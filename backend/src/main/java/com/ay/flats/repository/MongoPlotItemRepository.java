@@ -5,9 +5,9 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PlotItemRepository extends AbstractCommonRepository<PlotItem> implements CommonRepository<PlotItem> {
+public class MongoPlotItemRepository extends AbstractCommonRepository<PlotItem> implements CommonRepository<PlotItem> {
 
-    public PlotItemRepository(final MongoOperations operations) {
+    public MongoPlotItemRepository(final MongoOperations operations) {
         super(operations);
     }
 

@@ -12,11 +12,11 @@ class OlxServiceTest extends Specification {
 
     def "should extract field details from HTML"() {
         given:
-        int floor = 19
-        int floorsTotal = 25
-        int totalSquare = 45
-        int kitchenSquare = 5
-        int roomCount = 2
+        int givenFloor = 19
+        int givenFloorsTotal = 25
+        int givenTotalSquare = 45
+        int givenKitchenSquare = 5
+        int givenRoomCount = 2
         and:
         // language=HTML
         def html = """
@@ -58,7 +58,7 @@ class OlxServiceTest extends Specification {
                         <tbody>
                          <tr> 
                           <th>Поверх</th> 
-                          <td class="value"> <strong> $floor </strong> </td> 
+                          <td class="value"> <strong> $givenFloor </strong> </td> 
                          </tr> 
                         </tbody>
                        </table> 
@@ -70,7 +70,7 @@ class OlxServiceTest extends Specification {
                         <tbody>
                          <tr> 
                           <th>Поверховість</th> 
-                          <td class="value"> <strong> $floorsTotal </strong> </td> 
+                          <td class="value"> <strong> $givenFloorsTotal </strong> </td> 
                          </tr> 
                         </tbody>
                        </table> </td> 
@@ -79,7 +79,7 @@ class OlxServiceTest extends Specification {
                         <tbody>
                          <tr> 
                           <th>Загальна площа</th> 
-                          <td class="value"> <strong> $totalSquare м² </strong> </td> 
+                          <td class="value"> <strong> $givenTotalSquare м² </strong> </td> 
                          </tr> 
                         </tbody>
                        </table> </td> 
@@ -90,7 +90,7 @@ class OlxServiceTest extends Specification {
                         <tbody>
                          <tr> 
                           <th>Площа кухні</th> 
-                          <td class="value"> <strong> $kitchenSquare м² </strong> </td> 
+                          <td class="value"> <strong> $givenKitchenSquare м² </strong> </td> 
                          </tr> 
                         </tbody>
                        </table> </td> 
@@ -99,7 +99,7 @@ class OlxServiceTest extends Specification {
                         <tbody>
                          <tr> 
                           <th>Кількість кімнат</th> 
-                          <td class="value"> <strong> $roomCount </strong> </td> 
+                          <td class="value"> <strong> $givenRoomCount </strong> </td> 
                          </tr> 
                         </tbody>
                        </table> </td> 
@@ -112,10 +112,10 @@ class OlxServiceTest extends Specification {
         Element tbody = Jsoup.parse(html).body().selectFirst("table > tbody")
         Flat flat = olxService.extractDetailedFlatData(tbody)
         then:
-        flat.floor == floor
-        flat.floorsTotal == floorsTotal
-        flat.totalSquare == totalSquare
-        flat.kitchenSquare == kitchenSquare
-        flat.roomCount == roomCount
+        flat.floor == givenFloor
+        flat.floorsTotal == givenFloorsTotal
+        flat.totalSquare == givenTotalSquare
+        flat.kitchenSquare == givenKitchenSquare
+        flat.roomCount == givenRoomCount
     }
 }

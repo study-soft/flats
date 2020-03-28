@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class AbstractCommonRepository<T> implements CommonRepository<T> {
 
-    private final MongoOperations operations;
+    protected final MongoOperations operations;
 
     public AbstractCommonRepository(final MongoOperations operations) {
         this.operations = operations;

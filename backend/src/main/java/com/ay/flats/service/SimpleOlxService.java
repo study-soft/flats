@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class SimpleOlxService implements OlxService {
 
-    // https://www.olx.ua/uk/nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/?search%5Bfilter_float_floor%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Ato%5D=3&search%5Bdistrict_id%5D=17&currency=USD
-
     private static final int MIN_FLOOR = 2;
     private static final int MIN_ROOMS = 2;
     private static final int MAX_ROOMS = 3;
@@ -31,6 +29,9 @@ public class SimpleOlxService implements OlxService {
             "&search%5Bdistrict_id%5D=" + DISTRICT_ID +
             "&currency=USD";
 
+    /**
+     * Example: https://www.olx.ua/uk/nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/?search%5Bfilter_float_floor%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Ato%5D=3&search%5Bdistrict_id%5D=17&currency=USD
+     */
     @Override
     public final List<Flat> getFlats(final int page) {
         try {
@@ -48,9 +49,11 @@ public class SimpleOlxService implements OlxService {
 
     /**
      * IMPORTANT!!! Use this method very carefully to avoid spam to Olx
+     * <p>
+     * Example source: https://www.olx.ua/uk/obyavlenie/bolshaya-3-k-kvartira-84m2-dlya-semi-ot-kievgorstroy-v-zhk-otrada-IDEljix.html#e93f49b155
      */
     @Override
-    public final Flat getFlat(final String url) {
+    public final Flat getFlat(final String url) { // TODO: get all info, not only additional
         try {
             return Optional.of(Jsoup.connect(url)
                     .get()

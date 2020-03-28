@@ -1,18 +1,11 @@
 package com.ay.flats.repository;
 
 import com.ay.flats.domain.Flat;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.stereotype.Repository;
+import com.mongodb.bulk.BulkWriteResult;
 
-@Repository
-public class FlatRepository extends AbstractCommonRepository<Flat> implements CommonRepository<Flat> {
+import java.util.List;
 
-    public FlatRepository(final MongoOperations operations) {
-        super(operations);
-    }
+public interface FlatRepository extends CommonRepository<Flat> {
 
-    @Override
-    protected Class<Flat> entityClass() {
-        return Flat.class;
-    }
+    BulkWriteResult saveAll(List<Flat> flats);
 }
