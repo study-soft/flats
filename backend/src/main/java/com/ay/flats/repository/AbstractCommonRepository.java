@@ -1,7 +1,6 @@
 package com.ay.flats.repository;
 
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

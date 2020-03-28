@@ -15,18 +15,18 @@ import java.util.stream.IntStream;
 @Service
 public class SimplePlotService implements PlotService {
 
-    private final FlatService flatService;
+    private final SimpleOlxService simpleOlxService;
     private final CommonRepository<PlotItem> plotItemRepository;
 
-    public SimplePlotService(final FlatService flatService, final CommonRepository<PlotItem> plotItemRepository) {
-        this.flatService = flatService;
+    public SimplePlotService(final SimpleOlxService simpleOlxService, final CommonRepository<PlotItem> plotItemRepository) {
+        this.simpleOlxService = simpleOlxService;
         this.plotItemRepository = plotItemRepository;
     }
 
     @Override
     public PlotItem saveAverage(final int pages) {
         Double avgPrice = Optional.of(IntStream.range(1, pages)
-                .mapToObj(flatService::getFlats)
+                .mapToObj(simpleOlxService::getFlats)
                 .flatMap(Collection::stream)
                 .mapToInt(Flat::getPriceUsd)
                 .average()

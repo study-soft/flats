@@ -16,9 +16,14 @@ public final class Flat {
     @JsonIgnore
     private Long olxId;
     private String name;
-    private String link;
+    private String url;
     private Integer priceUsd;
     private LocalDateTime adDate;
+    private Integer floor;
+    private Integer floorsTotal;
+    private Integer totalSquare;
+    private Integer kitchenSquare;
+    private Integer roomCount;
 
     public String getId() {
         return id;
@@ -59,16 +64,16 @@ public final class Flat {
         return this;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(final String link) {
-        this.link = link;
+    public void setUrl(final String url) {
+        this.url = url;
     }
 
-    public Flat link(final String link) {
-        this.link = link;
+    public Flat url(final String link) {
+        this.url = link;
         return this;
     }
 
@@ -98,15 +103,85 @@ public final class Flat {
         return this;
     }
 
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(final Integer floor) {
+        this.floor = floor;
+    }
+
+    public Flat floor(final Integer floor) {
+        this.floor = floor;
+        return this;
+    }
+
+    public Integer getFloorsTotal() {
+        return floorsTotal;
+    }
+
+    public void setFloorsTotal(final Integer floorsTotal) {
+        this.floorsTotal = floorsTotal;
+    }
+
+    public Flat floorsTotal(final Integer floorsTotal) {
+        this.floorsTotal = floorsTotal;
+        return this;
+    }
+
+    public Integer getTotalSquare() {
+        return totalSquare;
+    }
+
+    public void setTotalSquare(final Integer totalSquare) {
+        this.totalSquare = totalSquare;
+    }
+
+    public Flat totalSquare(final Integer totalSquare) {
+        this.totalSquare = totalSquare;
+        return this;
+    }
+
+    public Integer getKitchenSquare() {
+        return kitchenSquare;
+    }
+
+    public void setKitchenSquare(final Integer kitchenSquare) {
+        this.kitchenSquare = kitchenSquare;
+    }
+
+    public Flat kitchenSquare(final Integer kitchenSquare) {
+        this.kitchenSquare = kitchenSquare;
+        return this;
+    }
+
+    public Integer getRoomCount() {
+        return roomCount;
+    }
+
+    public void setRoomCount(final Integer roomCount) {
+        this.roomCount = roomCount;
+    }
+
+    public Flat roomCount(final Integer roomCount) {
+        this.roomCount = roomCount;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Flat{" +
                 "id='" + id + '\'' +
                 ", olxId=" + olxId +
                 ", name='" + name + '\'' +
-                ", link='" + link + '\'' +
+                ", link='" + url + '\'' +
                 ", priceUsd=" + priceUsd +
                 ", adDate=" + adDate +
+                ", floor=" + floor +
+                ", floorsTotal=" + floorsTotal +
+                ", totalSquare=" + totalSquare +
+                ", kitchenSquare=" + kitchenSquare +
+                ", roomCount=" + roomCount +
                 '}';
     }
 }
