@@ -20,12 +20,12 @@ public class PlotController {
         this.service = service;
     }
 
-    @PostMapping("/average")
-    public ResponseEntity<PlotItem> savePlotItem(
-            @RequestParam(required = false, defaultValue = "${com.ay.flats.stats.pages}") final Integer pages
-    ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveAverage(pages));
-    }
+//    @PostMapping("/average")
+//    public ResponseEntity<PlotItem> savePlotItem(
+//            @RequestParam(required = false, defaultValue = "${com.ay.flats.stats.pages}") final Integer pages
+//    ) {
+//        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveAverage());
+//    }
 
     @GetMapping("/average")
     public ResponseEntity<List<PlotItem>> getPlotData() {

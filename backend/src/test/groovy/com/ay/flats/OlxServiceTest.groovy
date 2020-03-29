@@ -1,14 +1,15 @@
 package com.ay.flats
 
 import com.ay.flats.domain.Flat
-import com.ay.flats.service.SimpleOlxService
+import com.ay.flats.service.DefaultOlxService
+import com.ay.flats.service.OlxService
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import spock.lang.Specification
 
 class OlxServiceTest extends Specification {
 
-    private SimpleOlxService olxService = new SimpleOlxService()
+    private OlxService olxService = new DefaultOlxService()
 
     def "should extract field details from HTML"() {
         given:

@@ -4,6 +4,9 @@ import com.ay.flats.domain.Flat;
 import com.ay.flats.util.UkLocaleDateFormatter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,35 +17,43 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class SimpleOlxService implements OlxService {
+public class DefaultOlxService implements OlxService {
 
-    private static final int MIN_FLOOR = 2;
-    private static final int MIN_ROOMS = 2;
-    private static final int MAX_ROOMS = 3;
-    private static final int DISTRICT_ID = 17; // Solomensky
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultOlxService.class);
 
-    private static final String GET_ALL_URL = "https://www.olx.ua/uk/" +
+    @Value("${com.ay.flats.olx.min.floor}")
+    private Integer minFloor;
+    @Value("${com.ay.flats.olx.min.rooms}")
+    private Integer minRooms = 2;
+    @Value("${com.ay.flats.olx.max.rooms}")
+    private Integer maxRooms = 3;
+    @Value("${com.ay.flats.olx.district.id}")
+    private Integer districtId = 17; // Solomensky
+
+    private final String getAllUrl = "https://www.olx.ua/uk/" +
             "nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/" +
-            "?search%5Bfilter_float_floor%3Afrom%5D=" + MIN_FLOOR +
-            "&search%5Bfilter_float_number_of_rooms%3Afrom%5D=" + MIN_ROOMS +
-            "&search%5Bfilter_float_number_of_rooms%3Ato%5D=" + MAX_ROOMS +
-            "&search%5Bdistrict_id%5D=" + DISTRICT_ID +
+            "?search%5Bfilter_float_floor%3Afrom%5D=" + minFloor +
+            "&search%5Bfilter_float_number_of_rooms%3Afrom%5D=" + minRooms +
+            "&search%5Bfilter_float_number_of_rooms%3Ato%5D=" + maxRooms +
+            "&search%5Bdistrict_id%5D=" + districtId +
             "&currency=USD";
 
     /**
-     * Example: https://www.olx.ua/uk/nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/?search%5Bfilter_float_floor%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Ato%5D=3&search%5Bdistrict_id%5D=17&currency=USD
+     * Example source: https://www.olx.ua/uk/nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/?search%5Bfilter_float_floor%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Ato%5D=3&search%5Bdistrict_id%5D=17&currency=USD
      */
     @Override
     public final List<Flat> getFlats(final int page) {
         try {
-            return Jsoup.connect(GET_ALL_URL + "&page=" + page)
+            LOG.info("GET {}&page={}", getAllUrl, page);
+
+            return Jsoup.connect(getAllUrl + "&page=" + page)
                     .get()
                     .select("td[class=offer] > div[class=offer-wrapper] > table")
                     .stream()
                     .map(this::extractBaseFlatData)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            System.err.print("Seems that Olx is down. " + e.getMessage());
+            LOG.error("Seems that Olx is down. {}", e.getMessage(), e);
             return Collections.emptyList();
         }
     }
@@ -55,13 +66,15 @@ public class SimpleOlxService implements OlxService {
     @Override
     public final Flat getFlat(final String url) { // TODO: get all info, not only additional
         try {
+            LOG.info("GET {}", url);
+
             return Optional.of(Jsoup.connect(url)
                     .get()
                     .selectFirst("div[class*=descriptioncontent] > table > tbody"))
                     .map(this::extractDetailedFlatData)
                     .get();
         } catch (IOException e) {
-            System.err.print("Seems that Olx is down. " + e.getMessage());
+            LOG.error("Seems that Olx is down. {}", e.getMessage(), e);
             return new Flat();
         }
     }

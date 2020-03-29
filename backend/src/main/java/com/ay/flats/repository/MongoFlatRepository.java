@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -35,5 +36,10 @@ public class MongoFlatRepository extends AbstractCommonRepository<Flat> implemen
                         .set("adDate", flat.getAdDate())
         ));
         return bulkOperations.execute();
+    }
+
+    @Override
+    public Optional<Flat> findFlatByOlxId(final Long olxId) {
+        return Optional.ofNullable(operations.findOne(query(where("olxId").is(olxId)), Flat.class));
     }
 }

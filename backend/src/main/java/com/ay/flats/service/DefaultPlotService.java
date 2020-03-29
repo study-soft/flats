@@ -6,29 +6,25 @@ import com.ay.flats.repository.CommonRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 @Service
-public class SimplePlotService implements PlotService {
+public class DefaultPlotService implements PlotService {
 
-    private final SimpleOlxService simpleOlxService;
+    private final OlxService olxService;
     private final CommonRepository<PlotItem> plotItemRepository;
 
-    public SimplePlotService(final SimpleOlxService simpleOlxService, final CommonRepository<PlotItem> plotItemRepository) {
-        this.simpleOlxService = simpleOlxService;
+    public DefaultPlotService(final OlxService olxService, final CommonRepository<PlotItem> plotItemRepository) {
+        this.olxService = olxService;
         this.plotItemRepository = plotItemRepository;
     }
 
     @Override
-    public PlotItem saveAverage(final int pages) {
-        Double avgPrice = Optional.of(IntStream.range(1, pages)
-                .mapToObj(simpleOlxService::getFlats)
-                .flatMap(Collection::stream)
-                .mapToInt(Flat::getPriceUsd)
+    public PlotItem saveAverage(final List<Flat> flats) {
+        Double avgPrice = Optional.of(flats.stream()
+                .mapToDouble(flat -> flat.getPriceUsd().doubleValue() / flat.getTotalSquare())
                 .average()
                 .orElse(0.0))
                 .map(avg -> Math.round(avg * 100d) / 100d)
