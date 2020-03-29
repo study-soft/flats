@@ -1,6 +1,7 @@
 package com.ay.flats.web.rest;
 
 import com.ay.flats.domain.PlotItem;
+import com.ay.flats.service.FlatService;
 import com.ay.flats.service.PlotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +15,23 @@ import java.util.List;
 @RestController
 public class PlotController {
 
-    private final PlotService service;
+    private final PlotService plotService;
+    private final FlatService flatService;
 
-    public PlotController(final PlotService service) {
-        this.service = service;
+    public PlotController(final PlotService plotService, final FlatService flatService) {
+        this.plotService = plotService;
+        this.flatService = flatService;
     }
 
-//    @PostMapping("/average")
-//    public ResponseEntity<PlotItem> savePlotItem(
-//            @RequestParam(required = false, defaultValue = "${com.ay.flats.stats.pages}") final Integer pages
-//    ) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveAverage());
-//    }
+    @PostMapping("/average")
+    public ResponseEntity<PlotItem> savePlotItem(
+            @RequestParam(required = false, defaultValue = "${com.ay.flats.stats.pages}") final Integer pages
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(plotService.saveAverage(flatService.fetchAndSaveFlats(pages)));
+    }
 
     @GetMapping("/average")
     public ResponseEntity<List<PlotItem>> getPlotData() {
-        return ResponseEntity.ok(service.getPlotData());
+        return ResponseEntity.ok(plotService.getPlotData());
     }
 }

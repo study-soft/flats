@@ -7,4 +7,6 @@ import java.util.List;
 public interface FlatService {
 
     List<Flat> fetchAndSaveFlats(int pages);
+
+    List<Flat> getAll();
 }

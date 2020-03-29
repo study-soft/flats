@@ -31,6 +31,11 @@ public class DefaultFlatService implements FlatService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Flat> getAll() {
+        return repository.findAll();
+    }
+
     private Flat getFlatDetailsFromOlxOrDb(final Flat baseFlat) {
         Flat detailedFlat = repository.findFlatByOlxId(baseFlat.getOlxId()).orElse(new Flat());
         if (!baseFlat.getPriceUsd().equals(detailedFlat.getPriceUsd())) {

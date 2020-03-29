@@ -13,12 +13,10 @@ import java.util.UUID;
 @Service
 public class DefaultPlotService implements PlotService {
 
-    private final OlxService olxService;
-    private final CommonRepository<PlotItem> plotItemRepository;
+    private final CommonRepository<PlotItem> repository;
 
-    public DefaultPlotService(final OlxService olxService, final CommonRepository<PlotItem> plotItemRepository) {
-        this.olxService = olxService;
-        this.plotItemRepository = plotItemRepository;
+    public DefaultPlotService(final CommonRepository<PlotItem> repository) {
+        this.repository = repository;
     }
 
     @Override
@@ -31,7 +29,7 @@ public class DefaultPlotService implements PlotService {
                 .map(Double.class::cast)
                 .get();
 
-        return plotItemRepository.saveOrUpdate(new PlotItem()
+        return repository.saveOrUpdate(new PlotItem()
                 .id(UUID.randomUUID().toString())
                 .date(LocalDateTime.now())
                 .price(avgPrice));
@@ -39,6 +37,6 @@ public class DefaultPlotService implements PlotService {
 
     @Override
     public List<PlotItem> getPlotData() {
-        return plotItemRepository.findAll();
+        return repository.findAll();
     }
 }

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,12 +69,14 @@ public class DefaultOlxService implements OlxService {
         try {
             LOG.info("GET {}", url);
 
+            Thread.sleep(ThreadLocalRandom.current().nextInt(3, 7));
+
             return Optional.of(Jsoup.connect(url)
                     .get()
                     .selectFirst("div[class*=descriptioncontent] > table > tbody"))
                     .map(this::extractDetailedFlatData)
                     .get();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             LOG.error("Seems that Olx is down. {}", e.getMessage(), e);
             return new Flat();
         }
