@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from "primeng/api";
+import { PlotService } from "../plot.service";
+import { PlotItem } from "../plot-item.model";
+import * as Chart from "chart.js";
+import { add } from 'date-fns'
 
 @Component({
   selector: 'app-plot',
@@ -9,34 +13,85 @@ import { MessageService } from "primeng/api";
 })
 export class PlotComponent implements OnInit {
 
-  data: any;
+  data: Chart.ChartData;
+  options: Chart.ChartOptions;
 
-  constructor(private messageService: MessageService) {
+  private plotData: PlotItem[];
 
+  constructor(private messageService: MessageService,
+              private plotService: PlotService) {
   }
 
   ngOnInit(): void {
+    // this.plotData = this.mockPlotData();
+    this.getPlotData();
+
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: this.plotData?.map(e => e.date),
       datasets: [
         {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#4bc0c0'
-        },
-        {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          borderColor: '#565656'
+          label: 'Price, $',
+          data: this.plotData?.map(e => e.price),
+          fill: true,
+          borderColor: '#2a2a2a',
+          backgroundColor: 'rgba(97,255,66,0.5)',
+          pointBackgroundColor: '#2a2a2a'
         }
       ]
+    };
+
+    this.options = {
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            unit: "day",
+          },
+        }]
+      }
     }
   }
 
   selectData(event) {
-    this.messageService.add({severity: 'info', summary: 'Data Selected', 'detail': this.data.datasets[event.element._datasetIndex].data[event.element._index]});
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Data Selected',
+      // @ts-ignore
+      'detail': this.data.datasets[event.element._datasetIndex].data[event.element._index]
+    });
   }
 
+  generatePlotItem() {
+    this.plotService.createPlotItem()
+      .subscribe(item => {
+        console.log("generated item: ", item);
+      })
+  }
+
+  getPlotData() {
+    this.plotService.getPlotData()
+      .subscribe(data => this.plotData = data)
+  }
+
+  private mockPlotData(): PlotItem[] {
+    const now = new Date();
+    return [
+      {
+        date: now,
+        price: 1000
+      } as PlotItem,
+      {
+        date: add(now, {days: 1}),
+        price: 1200
+      } as PlotItem,
+      {
+        date: add(now, {days: 2}),
+        price: 1100
+      } as PlotItem,
+      {
+        date: add(now, {days: 3}),
+        price: 1500
+      } as PlotItem,
+    ]
+  }
 }

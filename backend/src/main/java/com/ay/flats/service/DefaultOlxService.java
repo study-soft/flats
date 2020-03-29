@@ -47,13 +47,15 @@ public class DefaultOlxService implements OlxService {
         try {
             LOG.info("GET {}&page={}", getAllUrl, page);
 
+            Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 7000));
+
             return Jsoup.connect(getAllUrl + "&page=" + page)
                     .get()
                     .select("td[class=offer] > div[class=offer-wrapper] > table")
                     .stream()
                     .map(this::extractBaseFlatData)
                     .collect(Collectors.toList());
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             LOG.error("Seems that Olx is down. {}", e.getMessage(), e);
             return Collections.emptyList();
         }
@@ -69,7 +71,7 @@ public class DefaultOlxService implements OlxService {
         try {
             LOG.info("GET {}", url);
 
-            Thread.sleep(ThreadLocalRandom.current().nextInt(3, 7));
+            Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 7000));
 
             return Optional.of(Jsoup.connect(url)
                     .get()
