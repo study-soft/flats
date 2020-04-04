@@ -1,3 +1,10 @@
-<p-button label="Calculate average price" (click)="generatePlotItem()"></p-button>
+<div class="p-grid">
+  <div class="p-col">
+    <p-button label="Calculate average price" (click)="generatePlotItem()"></p-button>
+  </div>
+  <div class="p-col">
+  </div>
+  <div class="p-col"></div>
+</div>
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
-<p-chart type="line" [data]="data" [options]="options" (onDataSelect)="selectData($event)"></p-chart>
+<p-chart type="line" [data]="data" [options]="options"></p-chart>

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from "primeng/api";
 import { PlotService } from "../plot.service";
 import { PlotItem } from "../plot-item.model";
 import * as Chart from "chart.js";
 import { add } from 'date-fns'
+import { MessageService } from "primeng";
 
 @Component({
   selector: 'app-plot',
   templateUrl: './plot.component.html',
-  styles: [],
   providers: [MessageService]
 })
 export class PlotComponent implements OnInit {
@@ -16,29 +15,11 @@ export class PlotComponent implements OnInit {
   data: Chart.ChartData;
   options: Chart.ChartOptions;
 
-  private plotData: PlotItem[];
-
-  constructor(private messageService: MessageService,
-              private plotService: PlotService) {
+  constructor(private plotService: PlotService) {
   }
 
   ngOnInit(): void {
-    // this.plotData = this.mockPlotData();
-    this.getPlotData();
-
-    this.data = {
-      labels: this.plotData?.map(e => e.date),
-      datasets: [
-        {
-          label: 'Price, $',
-          data: this.plotData?.map(e => e.price),
-          fill: true,
-          borderColor: '#2a2a2a',
-          backgroundColor: 'rgba(97,255,66,0.5)',
-          pointBackgroundColor: '#2a2a2a'
-        }
-      ]
-    };
+    this.populatePlot();
 
     this.options = {
       scales: {
@@ -52,13 +33,27 @@ export class PlotComponent implements OnInit {
     }
   }
 
-  selectData(event) {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Data Selected',
-      // @ts-ignore
-      'detail': this.data.datasets[event.element._datasetIndex].data[event.element._index]
-    });
+  populatePlot() {
+    this.plotService.getPlotData()
+      .subscribe(data => {
+        this.setPlotData(data);
+      })
+  }
+
+  private setPlotData(data: PlotItem[]) {
+    this.data = {
+      labels: data?.map(e => e.date),
+      datasets: [
+        {
+          label: 'Price, $',
+          data: data?.map(e => e.price),
+          fill: true,
+          borderColor: '#007ad9',
+          backgroundColor: 'rgb(51, 153, 255, 0.5)',
+          pointBackgroundColor: '#007ad9'
+        }
+      ]
+    };
   }
 
   generatePlotItem() {
@@ -66,11 +61,6 @@ export class PlotComponent implements OnInit {
       .subscribe(item => {
         console.log("generated item: ", item);
       })
-  }
-
-  getPlotData() {
-    this.plotService.getPlotData()
-      .subscribe(data => this.plotData = data)
   }
 
   private mockPlotData(): PlotItem[] {
