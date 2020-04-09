@@ -5,9 +5,18 @@ plugins {
 	id 'groovy'
 }
 
-group = 'com.example'
+group = 'com.ay'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+
+task stage(dependsOn: [clean, build])
+
+// disable task 'test' for heroku builds
+gradle.taskGraph.whenReady {
+	taskGraph ->
+		if (taskGraph.hasTask(stage)) {
+			test.enabled = false
+		}
+}
 
 repositories {
 	mavenCentral()
