@@ -3,6 +3,7 @@ package com.ay.flats.web.rest;
 import com.ay.flats.domain.Flat;
 import com.ay.flats.service.FlatService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ public class FlatController {
         this.flatService = flatService;
     }
 
+    @CrossOrigin("https://flats-app.herokuapp.com")
     @GetMapping("/flats")
     public ResponseEntity<List<Flat>> getAll() {
         return ResponseEntity.ok(flatService.getAll());
