@@ -3,6 +3,7 @@ package com.ay.flats.service;
 import com.ay.flats.domain.Flat;
 import com.ay.flats.util.UkLocaleDateFormatter;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,9 +74,12 @@ public class DefaultOlxService implements OlxService {
 
             Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 7000));
 
-            return Optional.of(Jsoup.connect(url)
-                    .get()
-                    .selectFirst("div[class*=descriptioncontent] > table > tbody"))
+            Document htmlPage = Jsoup.connect(url)
+                    .get();
+
+            return Optional.ofNullable(Optional
+                    .ofNullable(htmlPage.selectFirst("div[class*=descriptioncontent] > table > tbody"))
+                    .orElse(htmlPage.selectFirst("div[class*=descriptioncontent] > table")))
                     .map(this::extractDetailedFlatData)
                     .get();
         } catch (IOException | InterruptedException e) {
