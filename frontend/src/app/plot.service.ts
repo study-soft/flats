@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 })
 export class PlotService {
 
-  private readonly BASE_URL = "http://localhost:8080";
+  private readonly BASE_URL = "";
   private readonly TIMEOUT_GET_PLOT_DATA: number = 10 * 60 * 1000;
 
   constructor(private http: HttpClient) {
