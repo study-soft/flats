@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverBaseUrl: `http://localhost:${$ENV.PORT}`
+  apiUrl: "https://flats-app.herokuapp.com/api"
 };

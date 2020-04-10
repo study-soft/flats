@@ -9,7 +9,7 @@ import { environment } from "../environments/environment";
 })
 export class PlotService {
 
-  private readonly BASE_URL = environment.serverBaseUrl;
+  private readonly BASE_URL = environment.apiUrl;
   private readonly TIMEOUT_GET_PLOT_DATA: number = 10 * 60 * 1000;
 
   constructor(private http: HttpClient) {

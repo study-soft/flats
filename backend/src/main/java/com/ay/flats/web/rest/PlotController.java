@@ -4,7 +4,10 @@ import com.ay.flats.domain.PlotItem;
 import com.ay.flats.service.PlotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,8 +20,7 @@ public class PlotController {
         this.plotService = plotService;
     }
 
-    @CrossOrigin("https://flats-app.herokuapp.com")
-    @PostMapping("/average")
+    @PostMapping("api/average")
     public ResponseEntity<PlotItem> savePlotItem(
             @RequestParam(required = false, defaultValue = "${com.ay.flats.stats.pages}") final Integer pages) {
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -26,8 +28,7 @@ public class PlotController {
                         plotService.calculateAverage(pages)));
     }
 
-    @CrossOrigin("https://flats-app.herokuapp.com")
-    @GetMapping("/average")
+    @GetMapping("api/average")
     public ResponseEntity<List<PlotItem>> getPlotData() {
         return ResponseEntity.ok(plotService.getPlotData());
     }
