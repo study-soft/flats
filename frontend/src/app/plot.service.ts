@@ -13,6 +13,7 @@ export class PlotService {
   private readonly TIMEOUT_GET_PLOT_DATA: number = 10 * 60 * 1000;
 
   constructor(private http: HttpClient) {
+    console.log("production: ", environment.production);
     console.log("PlotService initialized. BASE_URL = " + this.BASE_URL);
   }
 
