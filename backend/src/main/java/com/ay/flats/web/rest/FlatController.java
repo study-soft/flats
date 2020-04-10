@@ -22,7 +22,7 @@ public class FlatController {
         return ResponseEntity.ok(flatService.getAll());
     }
 
-    @GetMapping
+    @GetMapping("/api")
     public ResponseEntity<String> greeting() {
         return ResponseEntity.ok("Service successfully running!");
     }

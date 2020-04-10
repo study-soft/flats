@@ -1,4 +1,4 @@
 rootProject.name = 'flats'
 
 include('backend')
-//include('frontend')
+include('frontend')
