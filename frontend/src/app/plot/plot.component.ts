@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PlotService } from "../plot.service";
 import { PlotItem } from "../plot-item.model";
-import * as Chart from "chart.js";
 import { add } from 'date-fns'
-import { MessageService } from "primeng";
+import { PlotService } from "../plot.service";
+import * as Chart from "chart.js";
 
 @Component({
   selector: 'app-plot',
-  templateUrl: './plot.component.html',
-  providers: [MessageService]
+  templateUrl: './plot.component.html'
 })
 export class PlotComponent implements OnInit {
 
@@ -20,6 +18,7 @@ export class PlotComponent implements OnInit {
 
   ngOnInit(): void {
     this.populatePlot();
+    // this.populateMockPlotData();
 
     this.options = {
       scales: {
@@ -63,9 +62,9 @@ export class PlotComponent implements OnInit {
       })
   }
 
-  private mockPlotData(): PlotItem[] {
+  private populateMockPlotData(): void {
     const now = new Date();
-    return [
+    const data: PlotItem[] = [
       {
         date: now,
         price: 1000
@@ -82,6 +81,7 @@ export class PlotComponent implements OnInit {
         date: add(now, {days: 3}),
         price: 1500
       } as PlotItem,
-    ]
+    ];
+    this.setPlotData(data);
   }
 }

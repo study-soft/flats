@@ -1,2 +1,19 @@
-<app-login></app-login>
-<app-plot></app-plot>
+<nb-layout>
+
+  <!--  <nb-layout-header fixed>-->
+  <nb-layout-header>
+    <!-- Insert header here -->
+    <h2>Flats monitor</h2>
+  </nb-layout-header>
+    <nb-layout-column >
+      <app-plot></app-plot>
+      <!--    <app-login></app-login>-->
+      <router-outlet></router-outlet>
+    </nb-layout-column>
+
+  <!--  <nb-layout-footer fixed>-->
+  <nb-layout-footer>
+    <!-- Insert footer here -->
+  </nb-layout-footer>
+
+</nb-layout>

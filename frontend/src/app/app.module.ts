@@ -3,17 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbButtonModule,
+  NbInputModule,
+  NbCheckboxModule,
+  NbCardModule
+} from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PlotComponent } from './plot/plot.component';
-import { ToastModule } from "primeng/toast";
-import { ChartModule } from "primeng/chart";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ButtonModule } from "primeng/button";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { AuthInterceptor } from "./auth/auth.interceptor";
-import { AuthExpiredInterceptor } from "./auth/auth-expired.interceptor";
-import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
-import { LoginComponent } from './login/login.component';
-import { InputTextModule } from "primeng";
+import { ChartModule } from "angular2-chartjs";
+import { HttpClientModule } from "@angular/common/http";
+import { LoginComponent } from "./auth/login/login.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -23,40 +27,20 @@ import { InputTextModule } from "primeng";
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    ToastModule,
+    BrowserAnimationsModule,
+    NbThemeModule.forRoot({name: 'default'}),
+    NbLayoutModule,
+    NbEvaIconsModule,
     ChartModule,
-    ButtonModule,
-    ButtonModule,
-    InputTextModule
+    NbButtonModule,
+    FormsModule,
+    NbInputModule,
+    NbCheckboxModule,
+    NbCardModule,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthExpiredInterceptor,
-      multi: true
-    },
-    fakeBackendProvider
-    // [
-    //   {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: TimeoutInterceptor, multi: true
-    //   }
-    // ],
-    // [
-    //   {
-    //     provide: DEFAULT_TIMEOUT, useValue: 30000
-    //   }
-    // ]
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
