@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -32,6 +33,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^9.1.0",
     "@angular-devkit/build-angular": "~0.900.7",
     "@angular/cli": "~9.0.7",
     "@angular/compiler-cli": "~9.0.7",

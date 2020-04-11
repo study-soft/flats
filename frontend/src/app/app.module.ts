@@ -9,12 +9,17 @@ import { ChartModule } from "primeng/chart";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ButtonModule } from "primeng/button";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { DEFAULT_TIMEOUT, TimeoutInterceptor } from "./timeout-interceptor";
+import { AuthInterceptor } from "./auth/auth.interceptor";
+import { AuthExpiredInterceptor } from "./auth/auth-expired.interceptor";
+import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
+import { LoginComponent } from './login/login.component';
+import { InputTextModule } from "primeng";
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlotComponent
+    PlotComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -24,9 +29,21 @@ import { DEFAULT_TIMEOUT, TimeoutInterceptor } from "./timeout-interceptor";
     ToastModule,
     ChartModule,
     ButtonModule,
-    ButtonModule
+    ButtonModule,
+    InputTextModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthExpiredInterceptor,
+      multi: true
+    },
+    fakeBackendProvider
     // [
     //   {
     //     provide: HTTP_INTERCEPTORS,
