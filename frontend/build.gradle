@@ -1,0 +1,25 @@
+plugins {
+  id "com.github.node-gradle.node" version "2.2.3"
+}
+
+node {
+  version = '12.16.0'
+  npmVersion = '6.13.4'
+  download = true
+}
+
+//task buildAngularApp(type: NpxTask) {
+//  dependsOn npmInstall
+//  command = 'ng'
+//  args = ['build', '--prod']
+//  inputs.files('package.json', 'package-lock.json', 'angular.json', 'tsconfig.json', 'tsconfig.app.json')
+//  inputs.dir('src')
+//  inputs.dir(fileTree("node_modules").exclude(".cache"))
+//  outputs.dir('dist')
+//}
+
+task build(type: NpmTask) {
+  args = ['run', 'build']
+}
+
+build.dependsOn(npmInstall)

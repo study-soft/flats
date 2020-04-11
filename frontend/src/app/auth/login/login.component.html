@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="offset-md-2 col-12 col-md-8">
+    <nb-card>
+      <nb-card-header>
+        <h1>Login</h1>
+      </nb-card-header>
+      <nb-card-body>
+        <form>
+          <div class="form-control-group pb-4">
+            <label for="input-email" class="label">Email address:</label>
+            <input nbInput
+                   fullWidth
+                   name="email"
+                   id="input-email"
+                   pattern=".+@.+\..+"
+                   placeholder="Email address"
+                   fieldSize="large"
+                   autofocus=""
+                   required="">
+          </div>
+          <div class="form-control-group pb-4">
+            <span class="label-with-link">
+              <label for="input-password" class="label">Password:</label>
+            </span>
+            <input nbInput
+                   fullWidth
+                   name="password"
+                   type="password"
+                   id="input-password"
+                   placeholder="Password"
+                   fieldSize="large"
+                   required="" minlength="4" maxlength="50">
+          </div>
+          <div class="form-control-group pb-4">
+            <nb-checkbox>Remember me</nb-checkbox>
+          </div>
+          <button nbButton fullWidth status="primary" size="large" disabled> Log In</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

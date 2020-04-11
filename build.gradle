@@ -8,16 +8,16 @@ plugins {
 group = 'com.ay'
 version = '0.0.1-SNAPSHOT'
 
-processResources {
-    dependsOn ':frontend:build'
-    doLast {
-        mkdir "$buildDir/resources/main/static"
-        copy {
-            from 'frontend/dist'
-            into "$buildDir/resources/main/static"
-        }
-    }
-}
+//processResources {
+//    dependsOn ':frontend:build'
+//    doLast {
+//        mkdir "$buildDir/resources/main/static"
+//        copy {
+//            from 'frontend/dist'
+//            into "$buildDir/resources/main/static"
+//        }
+//    }
+//}
 
 task stage(dependsOn: [build, clean])
 build.mustRunAfter clean
