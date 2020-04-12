@@ -8,12 +8,12 @@ plugins {
 group = 'com.ay'
 version = '0.0.1-SNAPSHOT'
 
-processResources {
-    dependsOn(':frontend:buildDist')
-    from ('frontend/dist') {
-        into "public"
-    }
-}
+//processResources {
+//    dependsOn(':frontend:buildDist')
+//    from ('frontend/dist') {
+//        into "public"
+//    }
+//}
 
 task stage(dependsOn: [clean, build])
 build.mustRunAfter clean

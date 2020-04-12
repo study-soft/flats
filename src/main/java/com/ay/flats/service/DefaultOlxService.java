@@ -50,8 +50,13 @@ public class DefaultOlxService implements OlxService {
 
             Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 7000));
 
-            return Jsoup.connect(getAllUrl + "&page=" + page)
-                    .get()
+            Document html = Jsoup.connect(getAllUrl + "&page=" + page)
+                    .get();
+
+            LOG.info(">>>>> GET ALL {}", html);
+            LOG.info(">>>> GET ALL {}", html.select("td[class=offer] > div[class=offer-wrapper] > table"));
+
+            return html
                     .select("td[class=offer] > div[class=offer-wrapper] > table")
                     .stream()
                     .map(this::extractBaseFlatData)
@@ -74,12 +79,14 @@ public class DefaultOlxService implements OlxService {
 
             Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 7000));
 
-            Document htmlPage = Jsoup.connect(url)
+            Document html = Jsoup.connect(url)
                     .get();
 
-            return Optional.ofNullable(Optional
-                    .ofNullable(htmlPage.selectFirst("div[class*=descriptioncontent] > table > tbody"))
-                    .orElse(htmlPage.selectFirst("div[class*=descriptioncontent] > table")))
+            LOG.info(">>> GET ONE {}", html);
+            LOG.info(">> GET ONE {}", html.selectFirst("div[class*=descriptioncontent] > table > tbody"));
+
+            return Optional.of(html
+                    .selectFirst("div[class*=descriptioncontent] > table > tbody"))
                     .map(this::extractDetailedFlatData)
                     .get();
         } catch (IOException | InterruptedException e) {
