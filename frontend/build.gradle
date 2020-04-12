@@ -22,4 +22,4 @@ task build(type: NpmTask) {
   args = ['run', 'build']
 }
 
-build.dependsOn(npmInstall)
+buildDist.dependsOn(npmInstall)
