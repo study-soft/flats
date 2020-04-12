@@ -10,12 +10,8 @@ version = '0.0.1-SNAPSHOT'
 
 processResources {
     dependsOn(':frontend:buildDist')
-    doLast {
-        mkdir "$buildDir/resources/main/public"
-        copy {
-            from 'frontend/dist'
-            into "$buildDir/resources/main/public"
-        }
+    from ('frontend/dist') {
+        into "public"
     }
 }
 
