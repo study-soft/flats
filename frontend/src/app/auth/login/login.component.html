@@ -5,36 +5,43 @@
         <h1>Login</h1>
       </nb-card-header>
       <nb-card-body>
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
           <div class="form-control-group pb-4">
-            <label for="input-email" class="label">Email address:</label>
+            <div class="pb-2">
+              <label for="username" class="label">Username:</label>
+            </div>
             <input nbInput
                    fullWidth
-                   name="email"
-                   id="input-email"
-                   pattern=".+@.+\..+"
-                   placeholder="Email address"
+                   [formControl]="username"
+                   id="username"
+                   placeholder="Username"
                    fieldSize="large"
-                   autofocus=""
-                   required="">
+                   autofocus="">
+            <ng-container *ngIf="submitted && username.errors">
+              <p class="caption status-danger"> Username is required! </p>
+            </ng-container>
           </div>
           <div class="form-control-group pb-4">
-            <span class="label-with-link">
-              <label for="input-password" class="label">Password:</label>
-            </span>
+            <div class="pb-2">
+              <label for="password" class="label">Password:</label>
+            </div>
             <input nbInput
                    fullWidth
+                   [formControl]="password"
                    name="password"
                    type="password"
-                   id="input-password"
+                   id="password"
                    placeholder="Password"
-                   fieldSize="large"
-                   required="" minlength="4" maxlength="50">
+                   fieldSize="large">
+            <ng-container *ngIf="submitted && password.errors">
+              <p class="caption status-danger"> Password is required! </p>
+            </ng-container>
           </div>
           <div class="form-control-group pb-4">
             <nb-checkbox>Remember me</nb-checkbox>
           </div>
-          <button nbButton fullWidth status="primary" size="large" disabled> Log In</button>
+          <button nbButton fullWidth status="primary" size="large"
+                  [disabled]="(submitted && loginForm.invalid) || loading">Log In</button>
         </form>
       </nb-card-body>
     </nb-card>

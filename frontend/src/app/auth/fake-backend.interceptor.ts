@@ -10,12 +10,21 @@ import { delay, dematerialize, materialize, mergeMap } from "rxjs/operators";
 import { User } from "./user.model";
 
 // array in local storage for registered users
-let users = JSON.parse(localStorage.getItem('users')) || [];
+const defaultUsers: User[] = [
+  {
+    id: "user1",
+    username: "admin",
+    password: "admin"
+  }
+];
+
+let users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor() {
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const { url, method, headers, body } = request;

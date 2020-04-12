@@ -21,6 +21,7 @@ export class PlotComponent implements OnInit {
     // this.populateMockPlotData();
 
     this.options = {
+      aspectRatio: 3,
       scales: {
         xAxes: [{
           type: 'time',

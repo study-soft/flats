@@ -15,9 +15,12 @@ import {
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PlotComponent } from './plot/plot.component';
 import { ChartModule } from "angular2-chartjs";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { LoginComponent } from "./auth/login/login.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AuthInterceptor } from "./auth/auth.interceptor";
+import { AuthExpiredInterceptor } from "./auth/auth-expired.interceptor";
+import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
 
 @NgModule({
   declarations: [
@@ -39,8 +42,21 @@ import { FormsModule } from "@angular/forms";
     NbInputModule,
     NbCheckboxModule,
     NbCardModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthExpiredInterceptor,
+      multi: true
+    },
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
