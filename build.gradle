@@ -19,12 +19,12 @@ task copyFrontend {
     }
 }
 
-task buildFull(dependsOn: [clean, copyFrontend, build])
+task full(dependsOn: [clean, copyFrontend, build])
 copyFrontend.mustRunAfter clean
 build.mustRunAfter clean
 build.mustRunAfter copyFrontend
 
-task stage(dependsOn: [build, clean])
+task stage(dependsOn: [full])
 
 // disable task 'test' for heroku builds
 gradle.taskGraph.whenReady { taskGraph ->
