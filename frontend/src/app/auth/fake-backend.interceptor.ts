@@ -26,7 +26,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   constructor() {
   }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const { url, method, headers, body } = request;
 
     // wrap in delayed observable to simulate server api call
@@ -68,7 +68,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function register() {
-      const user = body;
+      const user: any = body;
 
       if (users.find(x => x.username === user.username)) {
         return error('Username "' + user.username + '" is already taken')

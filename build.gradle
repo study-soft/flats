@@ -8,7 +8,7 @@ plugins {
 group = 'com.ay'
 version = '0.0.1-SNAPSHOT'
 
-task copyFrontend {
+processResources {
     dependsOn(':frontend:buildDist')
     doLast {
         mkdir "$buildDir/resources/main/public"
@@ -19,12 +19,8 @@ task copyFrontend {
     }
 }
 
-task full(dependsOn: [clean, copyFrontend, build])
-copyFrontend.mustRunAfter clean
+task stage(dependsOn: [clean, build])
 build.mustRunAfter clean
-build.mustRunAfter copyFrontend
-
-task stage(dependsOn: [full])
 
 // disable task 'test' for heroku builds
 gradle.taskGraph.whenReady { taskGraph ->
