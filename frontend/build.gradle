@@ -23,3 +23,7 @@ task buildDist(type: NpmTask) {
 }
 
 buildDist.dependsOn(npmInstall)
+
+task clean {
+  delete("build", "dist")
+}
