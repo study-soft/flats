@@ -11,10 +11,10 @@ version = '0.0.1-SNAPSHOT'
 task copyFrontend {
     dependsOn(':frontend:buildDist')
     doLast {
-        mkdir "$buildDir/resources/main/static"
+        mkdir "$buildDir/resources/main/public"
         copy {
             from 'frontend/dist'
-            into "$buildDir/resources/main/static"
+            into "$buildDir/resources/main/public"
         }
     }
 }
