@@ -9,7 +9,7 @@ import { PlotItem } from "./plot-item.model";
 })
 export class PlotService {
 
-  private readonly BASE_URL = environment.apiUrl;
+  private readonly BASE_URL = environment.serverApiUrl;
   private readonly TIMEOUT_GET_PLOT_DATA: number = 10 * 60 * 1000;
 
   constructor(private http: HttpClient) {

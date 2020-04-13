@@ -11,7 +11,7 @@ import { PrincipalService } from "./principal.service";
 })
 export class AuthService {
 
-  private readonly BASE_URL = environment.apiUrl;
+  private readonly BASE_URL = environment.serverApiUrl;
 
   constructor(private http: HttpClient,
               private principalService: PrincipalService) {
