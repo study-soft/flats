@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { AuthenticationService } from "../authentication.service";
+import { AuthService } from "../auth.service";
 import { first } from "rxjs/operators";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NbToastrService } from "@nebular/theme";
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ export class LoginComponent implements OnInit {
 
   returnUrl: string;
 
+  rememberMe: boolean = false;
+
   loading: boolean = false;
   submitted: boolean = false;
 
@@ -19,9 +22,10 @@ export class LoginComponent implements OnInit {
   username: FormControl;
   password: FormControl;
 
-  constructor(private authenticationService: AuthenticationService,
+  constructor(private authenticationService: AuthService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private toastrService: NbToastrService) {
   }
 
   ngOnInit(): void {
@@ -42,17 +46,20 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.username.value, this.password.value)
+    this.authenticationService.login(this.username.value, this.password.value, this.rememberMe)
       .pipe(first())
       .subscribe(
         user => {
-          console.log(user);
           this.router.navigate([this.returnUrl])
         },
         error => {
+          this.toastrService.danger(error.error.message, "Authentication error");
           this.loading = false;
-          console.log(error)
         }
-      )
+      );
+  }
+
+  setRememberMe(value: boolean): void {
+    this.rememberMe = value;
   }
 }

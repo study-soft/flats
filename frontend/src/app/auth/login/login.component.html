@@ -38,7 +38,7 @@
             </ng-container>
           </div>
           <div class="form-control-group pb-4">
-            <nb-checkbox>Remember me</nb-checkbox>
+            <nb-checkbox (checkedChange)="setRememberMe($event)">Remember me</nb-checkbox>
           </div>
           <button nbButton fullWidth status="primary" size="large"
                   [disabled]="(submitted && loginForm.invalid) || loading">Log In</button>

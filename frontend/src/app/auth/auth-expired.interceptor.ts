@@ -7,12 +7,12 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from "rxjs/operators";
-import { AuthenticationService } from "./authentication.service";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class AuthExpiredInterceptor implements HttpInterceptor {
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthService) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {

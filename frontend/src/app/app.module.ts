@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  NbThemeModule,
-  NbLayoutModule,
+  NbActionsModule,
   NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule, NbIconModule,
   NbInputModule,
-  NbCheckboxModule,
-  NbCardModule
+  NbLayoutModule,
+  NbThemeModule,
+  NbToastrModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PlotComponent } from './plot/plot.component';
@@ -34,6 +36,7 @@ import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
     HttpClientModule,
     BrowserAnimationsModule,
     NbThemeModule.forRoot({name: 'default'}),
+    NbToastrModule.forRoot({duration: 5000}),
     NbLayoutModule,
     NbEvaIconsModule,
     ChartModule,
@@ -43,6 +46,8 @@ import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
     NbCheckboxModule,
     NbCardModule,
     ReactiveFormsModule,
+    NbIconModule,
+    NbActionsModule,
   ],
   providers: [
     {
@@ -59,4 +64,5 @@ import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
