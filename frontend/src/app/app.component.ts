@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'frontend';
 
   currentUser: User;
-  private subscription: Subscription;
+  private currentUserSubscription: Subscription;
 
   constructor(private principalService: PrincipalService,
               private authService: AuthService,
@@ -22,14 +22,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.principalService.currentUser$
+    this.currentUserSubscription = this.principalService.currentUser$
       .subscribe(user => {
       this.currentUser = user;
     });
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.currentUserSubscription.unsubscribe();
   }
 
   logout(): void {
