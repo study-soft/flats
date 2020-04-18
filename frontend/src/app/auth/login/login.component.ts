@@ -13,10 +13,10 @@ export class LoginComponent implements OnInit {
 
   returnUrl: string;
 
-  rememberMe: boolean = false;
+  rememberMe = false;
 
-  loading: boolean = false;
-  submitted: boolean = false;
+  loading = false;
+  submitted = false;
 
   loginForm: FormGroup;
   username: FormControl;
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       password: this.password
     });
 
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || "/";
   }
 
   login(): void {
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         user => {
-          this.router.navigate([this.returnUrl])
+          this.router.navigate([this.returnUrl]);
         },
         error => {
           this.toastrService.danger(error.error.message, "Authentication error");

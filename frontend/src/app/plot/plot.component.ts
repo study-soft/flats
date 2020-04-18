@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlotItem } from "../plot-item.model";
-import { add } from 'date-fns'
+import { add } from 'date-fns';
 import { PlotService } from "../plot.service";
 import * as Chart from "chart.js";
 
@@ -30,14 +30,14 @@ export class PlotComponent implements OnInit {
           },
         }]
       }
-    }
+    };
   }
 
   populatePlot() {
     this.plotService.getPlotData()
       .subscribe(data => {
         this.setPlotData(data);
-      })
+      });
   }
 
   private setPlotData(data: PlotItem[]) {
@@ -60,7 +60,7 @@ export class PlotComponent implements OnInit {
     this.plotService.createPlotItem()
       .subscribe(item => {
         console.log("generated item: ", item);
-      })
+      });
   }
 
   private populateMockPlotData(): void {

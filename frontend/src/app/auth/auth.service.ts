@@ -24,7 +24,7 @@ export class AuthService {
       tap(user => {
         this.principalService.storeUser(user, rememberMe);
       })
-    )
+    );
   }
 
   logout(): void {
