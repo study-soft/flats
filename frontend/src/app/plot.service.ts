@@ -3,6 +3,8 @@ import { environment } from "../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { PlotItem } from "./plot-item.model";
+import { parseISO } from 'date-fns';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,25 @@ export class PlotService {
   }
 
   getPlotData(): Observable<PlotItem[]> {
-    return this.http.get<PlotItem[]>(this.BASE_URL + "/average");
+    return this.http.get<PlotItem[]>(this.BASE_URL + "/average")
+      .pipe(
+        map(res => this.convertDateArrayFromServer(res))
+      );
+  }
+
+  private convertDateFromServer(target: PlotItem): PlotItem {
+    if (target && target.date && typeof target.date === "string") {
+      target.date = parseISO(target.date);
+    }
+    return target;
+  }
+
+  protected convertDateArrayFromServer(target: PlotItem[]): PlotItem[] {
+    if (target) {
+      target.forEach(item => {
+        this.convertDateFromServer(item);
+      });
+    }
+    return target;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlotItem } from "../plot-item.model";
-import { add } from 'date-fns';
+import { add, format, parse } from 'date-fns';
 import { PlotService } from "../plot.service";
 import * as Chart from "chart.js";
 
@@ -45,7 +45,7 @@ export class PlotComponent implements OnInit {
       labels: data?.map(e => e.date),
       datasets: [
         {
-          label: 'Price, $',
+          label: 'Price, $ / m\u00B2',
           data: data?.map(e => e.price),
           fill: true,
           borderColor: '#007ad9',

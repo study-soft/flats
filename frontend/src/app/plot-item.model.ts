@@ -1,5 +1,5 @@
 export class PlotItem {
-  date: Date | string;
+  date: Date;
   price: number;
   newFlats?: number;
 }
