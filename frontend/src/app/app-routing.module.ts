@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from "./auth/login/login.component";
-import { PlotComponent } from "./plot/plot.component";
-import { AuthGuard } from "./auth/auth.guard";
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PlotComponent } from './plot/plot.component';
+import { AuthGuard } from './auth/services/auth.guard';
 
 
 const routes: Routes = [
@@ -12,13 +11,15 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module')
+      .then(m => m.AuthModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: true, preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

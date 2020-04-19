@@ -2,14 +2,16 @@
 
   <!--  <nb-layout-header fixed>-->
   <nb-layout-header>
-<!--     Insert header here -->
+    <!--     Insert header here -->
     <h2>Flats monitor</h2>
-    <div class="right">
-      <div *ngIf="currentUser">
+    <div class="ml-auto">
+      <ng-container *ngIf="currentUser">
         <nb-actions>
-          <nb-action icon="power-outline" (click)="logout()"></nb-action>
+          <nb-action>
+            <nb-action icon="power-outline" (click)="logout()"></nb-action>
+          </nb-action>
         </nb-actions>
-      </div>
+      </ng-container>
     </div>
   </nb-layout-header>
   <nb-layout-column>

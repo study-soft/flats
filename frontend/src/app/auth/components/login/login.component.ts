@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { AuthService } from "../auth.service";
+import { AuthService } from "../../services/auth.service";
 import { first } from "rxjs/operators";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NbToastrService } from "@nebular/theme";

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PrincipalService } from "./auth/principal.service";
-import { Subscription } from "rxjs";
-import { AuthService } from "./auth/auth.service";
-import { Router } from "@angular/router";
-import { User } from "./auth/user.model";
+import { PrincipalService } from './auth/services/principal.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from './auth/services/auth.service';
+import { Router } from '@angular/router';
+import { User } from './auth/models/user.model';
+import { NbThemeService } from '@nebular/theme';
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUserSubscription = this.principalService.currentUser$
       .subscribe(user => {
-      this.currentUser = user;
-    });
+        console.log('Current user changes: ', user);
+        this.currentUser = user;
+      });
   }
 
   ngOnDestroy(): void {
@@ -34,6 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/auth/login']);
   }
 }

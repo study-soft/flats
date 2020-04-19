@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
-import { User } from './user.model';
+import { User } from '../models/user.model';
 
 // array in local storage for registered users
 const defaultUsers: User[] = [

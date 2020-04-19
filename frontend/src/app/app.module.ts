@@ -12,17 +12,17 @@ import {
   NbInputModule,
   NbLayoutModule,
   NbThemeModule,
-  NbToastrModule
+  NbToastrModule, NbToggleModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PlotComponent } from './plot/plot.component';
 import { ChartModule } from "angular2-chartjs";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { LoginComponent } from "./auth/login/login.component";
+import { LoginComponent } from "./auth/components/login/login.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AuthInterceptor } from "./auth/auth.interceptor";
-import { AuthExpiredInterceptor } from "./auth/auth-expired.interceptor";
-import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
+import { AuthInterceptor } from "./auth/interceptors/auth.interceptor";
+import { AuthExpiredInterceptor } from "./auth/interceptors/auth-expired.interceptor";
+import { fakeBackendProvider } from "./auth/interceptors/fake-backend.interceptor";
 
 @NgModule({
   declarations: [
@@ -48,6 +48,7 @@ import { fakeBackendProvider } from "./auth/fake-backend.interceptor";
     ReactiveFormsModule,
     NbIconModule,
     NbActionsModule,
+    NbToggleModule,
   ],
   providers: [
     {

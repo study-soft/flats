@@ -1,2 +1,9 @@
-<button nbButton status="primary" class="mr-2 mb-2" (click)="generatePlotItem()">Calculate average price</button>
-<chart type="line" [data]="data" [options]="options"></chart>
+<nb-card>
+  <nb-card-header>
+    <h4>2-3 rooms apartments, not 1-st floor, Solomyansky district</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <button nbButton status="primary" class="mr-2 mb-2" (click)="generatePlotItem()">Calculate average price</button>
+    <chart type="line" [data]="data" [options]="options"></chart>
+  </nb-card-body>
+</nb-card>

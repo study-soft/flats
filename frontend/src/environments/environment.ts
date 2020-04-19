@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverApiUrl: $ENV.SERVER_API_URL || "http://localhost:8080/api"
+  serverApiUrl: $ENV.SERVER_API_URL || "/api"
 };
 
 /*
