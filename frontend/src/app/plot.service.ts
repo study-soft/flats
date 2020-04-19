@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { PlotItem } from "./plot-item.model";
 import { parseISO } from 'date-fns';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,7 @@ export class PlotService {
   getPlotData(): Observable<PlotItem[]> {
     return this.http.get<PlotItem[]>(this.BASE_URL + "/average")
       .pipe(
+        delay(5000),
         map(res => this.convertDateArrayFromServer(res))
       );
   }

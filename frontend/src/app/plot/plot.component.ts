@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { PlotItem } from "../plot-item.model";
-import { add, format, parse } from 'date-fns';
-import { PlotService } from "../plot.service";
-import * as Chart from "chart.js";
+import { PlotItem } from '../plot-item.model';
+import { add } from 'date-fns';
+import { PlotService } from '../plot.service';
+import * as Chart from 'chart.js';
 
 @Component({
   selector: 'app-plot',
   templateUrl: './plot.component.html'
 })
 export class PlotComponent implements OnInit {
+
+  loading = true;
 
   data: Chart.ChartData;
   options: Chart.ChartOptions;
@@ -26,7 +28,7 @@ export class PlotComponent implements OnInit {
         xAxes: [{
           type: 'time',
           time: {
-            unit: "day",
+            unit: 'day',
           },
         }]
       }
@@ -36,6 +38,7 @@ export class PlotComponent implements OnInit {
   populatePlot() {
     this.plotService.getPlotData()
       .subscribe(data => {
+        this.loading = false;
         this.setPlotData(data);
       });
   }
@@ -59,7 +62,7 @@ export class PlotComponent implements OnInit {
   generatePlotItem() {
     this.plotService.createPlotItem()
       .subscribe(item => {
-        console.log("generated item: ", item);
+        console.log('generated item: ', item);
       });
   }
 

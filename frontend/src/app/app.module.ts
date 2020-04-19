@@ -5,14 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  NbActionsModule,
-  NbButtonModule,
-  NbCardModule,
-  NbCheckboxModule, NbIconModule,
-  NbInputModule,
-  NbLayoutModule,
-  NbThemeModule,
-  NbToastrModule, NbToggleModule
+    NbActionsModule,
+    NbButtonModule,
+    NbCardModule,
+    NbCheckboxModule, NbIconModule,
+    NbInputModule,
+    NbLayoutModule, NbSpinnerModule,
+    NbThemeModule,
+    NbToastrModule, NbToggleModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PlotComponent } from './plot/plot.component';
@@ -30,26 +30,27 @@ import { fakeBackendProvider } from "./auth/interceptors/fake-backend.intercepto
     PlotComponent,
     LoginComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NbThemeModule.forRoot({name: 'default'}),
-    NbToastrModule.forRoot({duration: 5000}),
-    NbLayoutModule,
-    NbEvaIconsModule,
-    ChartModule,
-    NbButtonModule,
-    FormsModule,
-    NbInputModule,
-    NbCheckboxModule,
-    NbCardModule,
-    ReactiveFormsModule,
-    NbIconModule,
-    NbActionsModule,
-    NbToggleModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NbThemeModule.forRoot({name: 'default'}),
+        NbToastrModule.forRoot({duration: 5000}),
+        NbLayoutModule,
+        NbEvaIconsModule,
+        ChartModule,
+        NbButtonModule,
+        FormsModule,
+        NbInputModule,
+        NbCheckboxModule,
+        NbCardModule,
+        ReactiveFormsModule,
+        NbIconModule,
+        NbActionsModule,
+        NbToggleModule,
+        NbSpinnerModule,
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
