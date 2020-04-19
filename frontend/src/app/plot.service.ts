@@ -28,7 +28,6 @@ export class PlotService {
   getPlotData(): Observable<PlotItem[]> {
     return this.http.get<PlotItem[]>(this.BASE_URL + "/average")
       .pipe(
-        delay(5000),
         map(res => this.convertDateArrayFromServer(res))
       );
   }
