@@ -25,12 +25,21 @@ export class PlotComponent implements OnInit {
     this.options = {
       aspectRatio: 3,
       scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            unit: 'day',
-          },
-        }]
+        yAxes: [
+          {
+            ticks: {
+              min: 0
+            }
+          }
+        ],
+        xAxes: [
+          {
+            type: 'time',
+            time: {
+              unit: 'day',
+            },
+          }
+        ]
       }
     };
   }
