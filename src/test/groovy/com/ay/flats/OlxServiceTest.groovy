@@ -1,7 +1,7 @@
 package com.ay.flats
 
 import com.ay.flats.domain.Flat
-import com.ay.flats.service.DefaultOlxService
+import com.ay.flats.service.OldDesignOlxService
 import com.ay.flats.service.OlxService
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -9,7 +9,7 @@ import spock.lang.Specification
 
 class OlxServiceTest extends Specification {
 
-    private OlxService olxService = new DefaultOlxService()
+    private OlxService olxService = new OldDesignOlxService()
 
     def "should extract field details from HTML"() {
         given:

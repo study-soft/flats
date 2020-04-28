@@ -3,12 +3,10 @@ package com.ay.flats.service;
 import com.ay.flats.domain.Flat;
 import com.ay.flats.util.UkLocaleDateFormatter;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,41 +16,23 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-@Service
-public class DefaultOlxService implements OlxService {
+public abstract class AbstractOlxService implements OlxService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultOlxService.class);
-
-    @Value("${com.ay.flats.olx.min.floor}")
-    private Integer minFloor;
-    @Value("${com.ay.flats.olx.min.rooms}")
-    private Integer minRooms = 2;
-    @Value("${com.ay.flats.olx.max.rooms}")
-    private Integer maxRooms = 3;
-    @Value("${com.ay.flats.olx.district.id}")
-    private Integer districtId = 17; // Solomensky
-
-    private final String getAllUrl = "https://www.olx.ua/uk/" +
-            "nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/" +
-            "?search%5Bfilter_float_floor%3Afrom%5D=" + minFloor +
-            "&search%5Bfilter_float_number_of_rooms%3Afrom%5D=" + minRooms +
-            "&search%5Bfilter_float_number_of_rooms%3Ato%5D=" + maxRooms +
-            "&search%5Bdistrict_id%5D=" + districtId +
-            "&currency=USD";
+    protected final Logger LOG = LoggerFactory.getLogger(getClassForLogger());
 
     /**
      * Example source: https://www.olx.ua/uk/nedvizhimost/kvartiry-komnaty/prodazha-kvartir-komnat/kiev/?search%5Bfilter_float_floor%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Afrom%5D=2&search%5Bfilter_float_number_of_rooms%3Ato%5D=3&search%5Bdistrict_id%5D=17&currency=USD
      */
     @Override
-    public final List<Flat> getFlats(final int page) {
+    public List<Flat> getFlats(final int page) {
         try {
-            LOG.info("GET {}&page={}", getAllUrl, page);
+            LOG.info("GET {}&page={}", getAllUrl(), page);
 
             Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 7000));
 
-            return Jsoup.connect(getAllUrl + "&page=" + page)
+            return Jsoup.connect(getAllUrl() + "&page=" + page)
                     .get()
-                    .select("td[class=offer] > div[class=offer-wrapper] > table")
+                    .select(getAllSelector())
                     .stream()
                     .map(this::extractBaseFlatData)
                     .collect(Collectors.toList());
@@ -76,7 +56,7 @@ public class DefaultOlxService implements OlxService {
 
             return Optional.of(Jsoup.connect(url)
                     .get()
-                    .selectFirst("div[class*=descriptioncontent] > table > tbody"))
+                    .selectFirst(getOneSelector()))
                     .map(this::extractDetailedFlatData)
                     .get();
         } catch (IOException | InterruptedException e) {
@@ -85,7 +65,15 @@ public class DefaultOlxService implements OlxService {
         }
     }
 
-    private Flat extractBaseFlatData(final Element table) {
+    protected abstract Class<? extends AbstractOlxService> getClassForLogger();
+
+    protected abstract String getAllUrl();
+
+    protected abstract String getAllSelector();
+
+    protected abstract String getOneSelector();
+
+    protected Flat extractBaseFlatData(final Element table) {
         Long olxId = Long.valueOf(table.attr("data-id"));
 
         String link = table
@@ -126,20 +114,14 @@ public class DefaultOlxService implements OlxService {
                 .adDate(adDate);
     }
 
-    private Flat extractDetailedFlatData(final Element tbody) {
+    protected Flat extractDetailedFlatData(final Element tbody) {
         return new Flat()
-                .floor(extractTableData(tbody, "Поверх"))
-                .floorsTotal(extractTableData(tbody, "Поверховість"))
-                .totalSquare(extractTableData(tbody, "Загальна площа"))
-                .kitchenSquare(extractTableData(tbody, "Площа кухні"))
-                .roomCount(extractTableData(tbody, "Кількість кімнат"));
+                .floor(extractElementData(tbody, "Поверх"))
+                .floorsTotal(extractElementData(tbody, "Поверховість"))
+                .totalSquare(extractElementData(tbody, "Загальна площа"))
+                .kitchenSquare(extractElementData(tbody, "Площа кухні"))
+                .roomCount(extractElementData(tbody, "Кількість кімнат"));
     }
 
-    private int extractTableData(final Element tbody, final String section) {
-        return Integer.parseInt(tbody.selectFirst("th:contains(" + section + ")")
-                .nextElementSibling()
-                .selectFirst("strong")
-                .text()
-                .replaceAll("\\D", ""));
-    }
+    protected abstract int extractElementData(Element tbody, String section);
 }

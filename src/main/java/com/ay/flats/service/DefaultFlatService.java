@@ -2,6 +2,7 @@ package com.ay.flats.service;
 
 import com.ay.flats.domain.Flat;
 import com.ay.flats.repository.FlatRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,7 +16,8 @@ public class DefaultFlatService implements FlatService {
     private final OlxService olxService;
     private final FlatRepository repository;
 
-    public DefaultFlatService(final OlxService olxService, final FlatRepository repository) {
+    public DefaultFlatService(final @Qualifier("newDesignOlxService") OlxService olxService,
+                              final FlatRepository repository) {
         this.olxService = olxService;
         this.repository = repository;
     }
