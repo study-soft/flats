@@ -1,27 +1,41 @@
 package com.ay.flats.repository;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoOperations;
 
 import java.util.List;
 
 public abstract class AbstractCommonRepository<T> implements CommonRepository<T> {
 
-    protected final MongoOperations operations;
+    protected final MongoOperations localTemplate;
+    protected final MongoOperations remoteTemplate;
 
-    public AbstractCommonRepository(final MongoOperations operations) {
-        this.operations = operations;
+    public AbstractCommonRepository(final @Qualifier("localMongoTemplate") MongoOperations localTemplate,
+                                    final @Qualifier("remoteMongoTemplate") MongoOperations remoteTemplate) {
+        this.localTemplate = localTemplate;
+        this.remoteTemplate = remoteTemplate;
     }
 
     protected abstract Class<T> entityClass();
 
+    protected abstract boolean needRemote();
+
     @Override
     public T saveOrUpdate(final T entity) {
-        return operations.save(entity);
+        T saved = localTemplate.save(entity);
+        if (needRemote()) {
+            remoteTemplate.save(entity);
+        }
+        return saved;
     }
 
     @Override
     public List<T> findAll() {
-        return operations.findAll(entityClass());
+        List<T> all = localTemplate.findAll(entityClass());
+        if (needRemote()) {
+            remoteTemplate.findAll(entityClass());
+        }
+        return all;
     }
 
 }

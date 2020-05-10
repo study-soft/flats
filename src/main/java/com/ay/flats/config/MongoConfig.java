@@ -1,8 +1,12 @@
 package com.ay.flats.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
 import org.springframework.data.mongodb.core.convert.DbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
@@ -26,5 +30,15 @@ public class MongoConfig {
         MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
         converter.setTypeMapper(new DefaultMongoTypeMapper(null));
         return converter;
+    }
+
+    @Bean
+    public MongoOperations localMongoTemplate(@Value("${spring.data.mongodb.local.uri}") String uri) {
+        return new MongoTemplate(new SimpleMongoClientDbFactory(uri));
+    }
+
+    @Bean
+    public MongoOperations remoteMongoTemplate(@Value("${spring.data.mongodb.remote.uri}") String uri) {
+        return new MongoTemplate(new SimpleMongoClientDbFactory(uri));
     }
 }

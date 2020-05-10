@@ -2,6 +2,7 @@ package com.ay.flats.repository;
 
 import com.ay.flats.domain.Flat;
 import com.mongodb.bulk.BulkWriteResult;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
@@ -16,8 +17,9 @@ import static org.springframework.data.mongodb.core.query.Update.update;
 @Repository
 public class MongoFlatRepository extends AbstractCommonRepository<Flat> implements CommonRepository<Flat>, FlatRepository {
 
-    public MongoFlatRepository(final MongoOperations operations) {
-        super(operations);
+    public MongoFlatRepository(@Qualifier("localMongoTemplate") final MongoOperations localTemplate,
+                               @Qualifier("remoteMongoTemplate") final MongoOperations remoteTemplate) {
+        super(localTemplate, remoteTemplate);
     }
 
     @Override
@@ -26,8 +28,13 @@ public class MongoFlatRepository extends AbstractCommonRepository<Flat> implemen
     }
 
     @Override
+    protected boolean needRemote() {
+        return false;
+    }
+
+    @Override
     public BulkWriteResult saveAll(List<Flat> flats) {
-        BulkOperations bulkOperations = operations.bulkOps(BulkOperations.BulkMode.UNORDERED, Flat.class);
+        BulkOperations bulkOperations = localTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, Flat.class);
         flats.forEach(flat -> bulkOperations.upsert(
                 query(where("olxId").is(flat.getOlxId())),
                 update("name", flat.getName())
@@ -40,6 +47,6 @@ public class MongoFlatRepository extends AbstractCommonRepository<Flat> implemen
 
     @Override
     public Optional<Flat> findFlatByOlxId(final Long olxId) {
-        return Optional.ofNullable(operations.findOne(query(where("olxId").is(olxId)), Flat.class));
+        return Optional.ofNullable(localTemplate.findOne(query(where("olxId").is(olxId)), Flat.class));
     }
 }
