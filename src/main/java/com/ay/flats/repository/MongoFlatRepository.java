@@ -2,6 +2,8 @@ package com.ay.flats.repository;
 
 import com.ay.flats.domain.Flat;
 import com.mongodb.bulk.BulkWriteResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -30,6 +32,11 @@ public class MongoFlatRepository extends AbstractCommonRepository<Flat> implemen
     @Override
     protected boolean needRemote() {
         return false;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LoggerFactory.getLogger(MongoFlatRepository.class);
     }
 
     @Override
